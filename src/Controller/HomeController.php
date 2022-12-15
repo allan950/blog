@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Repository\CategoryRepository;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,11 +42,15 @@ class HomeController extends AbstractController {
     }
 
     #[Route('/post/search', name: 'index_by_search')]
-    public function indexBySearch(Request $request) {
+    public function indexBySearch(Request $request, CommentRepository $commentRepository) {
 
         $search = $request->request->get('search');
 
         $category = $this->postRepository->findAllBySearch($search);
+
+        $comments = $this->commentReposity->findAll();
+
+        dd($comments);
         
         return $this->render('home/index.html.twig', [
             'posts' => $category,
