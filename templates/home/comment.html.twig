@@ -1,11 +1,32 @@
-{% block %}
-    <div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Card title</h4>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
-{% endblock %}
+
+
+{% if (app.user and is_granted('ROLE_ADMIN')) %}
+<h3>Leave a comment</h3>
+    {{ form_start(form)}}
+    {{ form_end(form)}}
+{% endif %}
+
+{# {% if (app.user and is_granted('ROLE_ADMIN')) %}
+<div class="form-group row">
+  <div class="form-group">
+      <textarea class="form-control" id="exampleTextarea" rows="4"></textarea>
+    </div>
+    </div>
+
+    <br/>
+  <br/>
+{% endif %} #}
+
+<h3>Comment section</h3>
+  
+  {% for comment in comments %}
+    {% if (comment.post.id == post.id) %}
+      <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{comment.user.username}}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">{{comment.createdAt | date('m/d/Y')}}</h6>
+        <p class="card-text">{{comment.content}}</p>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}

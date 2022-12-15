@@ -20,18 +20,7 @@
 
   <br/>
   <br/>
-  <h3>Comment section</h3>
-  
-  {% for comment in comments %}
-    {% if (comment.post.id == post.id) %}
-      <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">{{comment.user.username}}</h4>
-        <h6 class="card-subtitle mb-2 text-muted">{{comment.createdAt | date('m/d/Y')}}</h6>
-        <p class="card-text">{{comment.content}}</p>
-      </div>
-    </div>
-  {% endif %}
-{% endfor %}
+
+{% include('home/comment.html.twig') %}
 
 {% endblock %}
