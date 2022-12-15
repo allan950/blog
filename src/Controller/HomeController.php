@@ -42,15 +42,11 @@ class HomeController extends AbstractController {
     }
 
     #[Route('/post/search', name: 'index_by_search')]
-    public function indexBySearch(Request $request, CommentRepository $commentRepository) {
+    public function indexBySearch(Request $request) {
 
         $search = $request->request->get('search');
 
         $category = $this->postRepository->findAllBySearch($search);
-
-        $comments = $this->commentReposity->findAll();
-
-        dd($comments);
         
         return $this->render('home/index.html.twig', [
             'posts' => $category,
@@ -59,10 +55,13 @@ class HomeController extends AbstractController {
     }
 
     #[Route('/post/{id<[0-9]+>}')]
-    public function show(Post $post) {
+    public function show(Post $post, CommentRepository $commentRepository) {
+
+        $comments = $commentRepository->findAll();
 
         return $this->render('home/show.html.twig', [
             'post' => $post,
+            'comments' => $comments,
         ]);
     }
 }
